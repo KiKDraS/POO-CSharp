@@ -71,6 +71,10 @@ namespace Biblioteca
             {
                 Console.WriteLine($"Error null exception: {ex.Message}");
             }
+            catch(PokemonExisteException ex)
+            {
+                Console.WriteLine($"Error Pkemon Existe exception: {ex.Message}");
+            }
         }
 
         /// <summary>
@@ -149,9 +153,8 @@ namespace Biblioteca
                 Pokemon evolucion = PokemonActivo.Evolucionar();
                 Pokedex.ActualizarPokedexEvolucion(evolucion, PokemonActivo);
                 PokemonActivo = evolucion;
-
             }
-            catch (ArgumentNullException ex)
+            catch (NullReferenceException ex)
             {
                 Console.WriteLine($"Error null exception: {ex.Message}");
             }

@@ -56,6 +56,13 @@ namespace Programa
             Console.WriteLine($"Pokemon Activo: { ash.PokemonActivo.Nombre }");
 
 
+            //Excepciones
+            //ash.PokemonActivo.Familia = "";
+            //ash.Evolucion();
+            //ash.PokemonActivo = null;
+            //ash.Evolucion();
+            //ash.AgregarPokemonPokedex(new Pikachu());
+
         }
 
     }

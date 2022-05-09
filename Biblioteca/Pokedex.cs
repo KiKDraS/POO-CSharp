@@ -31,7 +31,7 @@ namespace Biblioteca
         public void ActualizarPokedex(Pokemon pokemon)
         {
             if (pokemon == null)
-                throw new ArgumentNullException("No pudimos actualizar la Pokedex. Tenemos problemas para encontrar la información del Pokemon");
+                throw new NullReferenceException("No pudimos actualizar la Pokedex. Tenemos problemas para encontrar la información del Pokemon");
 
             var existe = Pokemons.Find(poke => poke.Familia == pokemon.Familia && poke.Nombre == poke.Nombre);
             if (existe != null)
@@ -48,7 +48,7 @@ namespace Biblioteca
         public void ActualizarPokedexEvolucion(Pokemon evolucionando, Pokemon evolucion)
         {
             if (evolucionando == null || evolucion == null)
-                throw new ArgumentNullException("No pudimos actualizar la Pokedex. Tenemos problemas para encontrar la información del Pokemon");
+                throw new NullReferenceException("No pudimos actualizar la Pokedex. Tenemos problemas para encontrar la información del Pokemon");
             var evol = Pokemons.Find(poke => poke.Familia == evolucionando.Familia && poke.Nombre == evolucionando.Nombre);
             if (evol != null)
                 Pokemons.Remove(evol);
