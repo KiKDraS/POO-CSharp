@@ -7,53 +7,71 @@ namespace Programa
     {
         static void Main(string[] args)
         {
+            Console.Title = "Aventura Pokemon";
+
+            //Inicio del juego
+            string nombreEntrenador = Vistas.NombreEntrenador();
+
             //Crear entrenador
-            Entrenador ash = new("Ash");
+            Entrenador entrenador = new(nombreEntrenador);
+            Console.Clear();
 
-            //Cargar Pokemon en la Pokedex
-            ash.AgregarPokemonPokedex(new Pikachu());
-            ash.AgregarPokemonPokedex(new Bulbasaur());
-            ash.AgregarPokemonPokedex(new Squirtle());
-            ash.AgregarPokemonPokedex(new Charmander());
+            //Selección de Pokemon Inicial
+            int pokemonInicial = Vistas.PokemonInicial();
 
-            //Seleccionar PokemonActivo
-            ash.SeleccionarPokemonActivo(0);
+            //Cargar Pokemon Inicial en la Pokedex del Entrenador y configurarlo como Pokemon Activo
+            switch (pokemonInicial)
+            {
+                case 1:
+                    entrenador.AgregarPokemonPokedex(new Pikachu());    
+                    break;
+                case 2:
+                    entrenador.AgregarPokemonPokedex(new Bulbasaur());
+                    break;
+                case 3:
+                    entrenador.AgregarPokemonPokedex(new Squirtle());
+                    break;
+                case 4:
+                    entrenador.AgregarPokemonPokedex(new Charmander());
+                    break;
+            }
+            entrenador.SeleccionarPokemonActivo(0);
+            Console.Clear();
 
-            //Mostrar Pokemons de Ash
-            Console.WriteLine("Pokemons de Ash:");
-            ash.GetPokemons();
-
-            //Crear un PokemonSalvaje
-            ash.Explorar(new Squirtle());
-
-            //Mostramos vida PokemonActivo y PokemonSalvaje (Deben ser privadas)
-            Console.WriteLine($"Pokemon Activo: { ash.PokemonActivo.Nombre } - Vida: {ash.PokemonActivo.Vida}");
-            Console.WriteLine($"Pokemon Salvaje: { ash.PokemonSalvaje.Nombre } - Vida: {ash.PokemonSalvaje.Vida}");
+            //Explorar
+            Vistas.Explorar(entrenador);
+            Console.ReadKey();
+            Console.Clear();
 
             //Enfrentamiento
-            ash.AtaqueBasico();
-            Console.WriteLine($"Pokemon Activo: { ash.PokemonActivo.Nombre } - Vida: {ash.PokemonActivo.Vida}");
-            Console.WriteLine($"Pokemon Salvaje: { ash.PokemonSalvaje.Nombre } - Vida: {ash.PokemonSalvaje.Vida}");
+            string resultado = Vistas.Enfrentamiento(entrenador);
+            Console.Clear();
 
-            ash.AtaqueTipo();
-            Console.WriteLine($"Pokemon Activo: { ash.PokemonActivo.Nombre } - Vida: {ash.PokemonActivo.Vida}");
-            Console.WriteLine($"Pokemon Salvaje: { ash.PokemonSalvaje.Nombre } - Vida: {ash.PokemonSalvaje.Vida}");
+            switch (resultado)
+            {
+                case "El Pokemon Salvaje a ganado":
+                    Vistas.FinDelJuego(resultado, entrenador);
+                    break;
+                case "Tu Pokemon a ganado":
+                    break;
+            }
+
 
             //Evolucion
-            Console.WriteLine($"Pokemon Activo: { ash.PokemonActivo.Nombre }");
-            ash.PokemonActivo.SetExp(50);
-            ash.Evolucion();
-            Console.WriteLine($"Pokemon Activo: { ash.PokemonActivo.Nombre }");
+            Console.WriteLine($"Pokemon Activo: { entrenador.PokemonActivo.Nombre }");
+            entrenador.PokemonActivo.SetExp(50);
+            entrenador.Evolucion();
+            Console.WriteLine($"Pokemon Activo: { entrenador.PokemonActivo.Nombre }");
 
             //Evolucion2
-            ash.SeleccionarPokemonActivo(1);
-            Console.WriteLine($"Pokemon Activo: { ash.PokemonActivo.Nombre }");
-            ash.PokemonActivo.SetExp(50);
-            ash.Evolucion();
-            Console.WriteLine($"Pokemon Activo: { ash.PokemonActivo.Nombre }");
-            ash.PokemonActivo.SetExp(100);
-            ash.Evolucion();
-            Console.WriteLine($"Pokemon Activo: { ash.PokemonActivo.Nombre }");
+            entrenador.SeleccionarPokemonActivo(1);
+            Console.WriteLine($"Pokemon Activo: { entrenador.PokemonActivo.Nombre }");
+            entrenador.PokemonActivo.SetExp(50);
+            entrenador.Evolucion();
+            Console.WriteLine($"Pokemon Activo: { entrenador.PokemonActivo.Nombre }");
+            entrenador.PokemonActivo.SetExp(100);
+            entrenador.Evolucion();
+            Console.WriteLine($"Pokemon Activo: { entrenador.PokemonActivo.Nombre }");
 
 
             //Excepciones
