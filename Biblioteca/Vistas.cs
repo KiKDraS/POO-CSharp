@@ -63,20 +63,6 @@ namespace Biblioteca
         }
 
         /// <summary>
-        ///     Crea un menú de selección utilizando los elementos existentes en una Lista.
-        /// </summary>
-        /// <param name="lista">Lista utilizada para la creación del menú</param>
-        private static void GenerarMenu(List<string> lista)
-        {
-            int loop = 1;
-            foreach(string el in lista)
-            {
-                Console.WriteLine($"{loop}. {el}");
-                loop++;
-            }
-        }
-
-        /// <summary>
         ///     Crea la vista para la explorar en el juego. Explorar implica la creación de un Objeto Pokemon y la inserción del mismo en el atributo PokemonSalvaje del Objeto Entrenador
         /// </summary>
         /// <param name="entrenador">Objeto Entrenador que recibirá al Objeto Pokemon creado</param>
@@ -189,6 +175,20 @@ namespace Biblioteca
             PuntosSuspensivos();
             entrenador = null;
             return reiniciar;
+        }
+
+        /// <summary>
+        ///     Crea un menú de selección utilizando los elementos existentes en una Lista.
+        /// </summary>
+        /// <param name="lista">Lista utilizada para la creación del menú</param>
+        private static void GenerarMenu(List<string> lista)
+        {
+            int loop = 1;
+            foreach (string el in lista)
+            {
+                Console.WriteLine($"{loop}. {el}");
+                loop++;
+            }
         }
 
         /// <summary>
