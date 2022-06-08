@@ -23,7 +23,10 @@ namespace Biblioteca
             "Ataque Especial"
         };
 
-        public static void Titulo()
+        /// <summary>
+        ///     Imprime un título en pantalla
+        /// </summary>
+        private static void Titulo()
         {
             Console.ForegroundColor = ConsoleColor.DarkYellow;
 
@@ -34,6 +37,10 @@ namespace Biblioteca
             Console.ResetColor();
         }
 
+        /// <summary>
+        ///     Arma la vista para la creación de Objeto Entrenador
+        /// </summary>
+        /// <returns>Objeto Entrenador</returns>
         public static string NombreEntrenador()
         {
             Titulo();
@@ -42,6 +49,10 @@ namespace Biblioteca
             return nombre;
         }
 
+        /// <summary>
+        ///    Imprime en patalla un menú que permite seleccionar el Pokemon inicial. Crea un Objeto Basico de   la clase sellada correpondiente con la selección. Utiliza el método GenerarMenu para la creación del menú a mostrar
+        /// </summary>
+        /// <returns>Objeto Basico</returns>
         public static int PokemonInicial(){
             Titulo();
             Console.WriteLine("Selecciona un Pokemon para iniciar la Aventura:");
@@ -51,7 +62,11 @@ namespace Biblioteca
             return pokemonInicial;
         }
 
-        static void GenerarMenu(List<string> lista)
+        /// <summary>
+        ///     Crea un menú de selección utilizando los elementos existentes en una Lista.
+        /// </summary>
+        /// <param name="lista">Lista utilizada para la creación del menú</param>
+        private static void GenerarMenu(List<string> lista)
         {
             int loop = 1;
             foreach(string el in lista)
@@ -61,6 +76,10 @@ namespace Biblioteca
             }
         }
 
+        /// <summary>
+        ///     Crea la vista para la explorar en el juego. Explorar implica la creación de un Objeto Pokemon y la inserción del mismo en el atributo PokemonSalvaje del Objeto Entrenador
+        /// </summary>
+        /// <param name="entrenador">Objeto Entrenador que recibirá al Objeto Pokemon creado</param>
         public static void Explorar(Entrenador entrenador)
         {
             Titulo();
@@ -72,6 +91,11 @@ namespace Biblioteca
             Console.WriteLine("Vamos a enfrentarnos a el");
         }
 
+        /// <summary>
+        ///     Crea la vista para el enfrentamiento entre los PokemonActivo y PokemonSalvaje que se encuentran almacenados en el Objeto Entrenador
+        /// </summary>
+        /// <param name="entrenador">Objeto Entrenador del que se toman los datos PokemonActivo y PokemonSalvaje</param>
+        /// <returns></returns>
         public static string Enfrentamiento(Entrenador entrenador)
         {
             string resultado = "";
@@ -123,25 +147,54 @@ namespace Biblioteca
             return resultado;
         }
 
-        public static void FinDelJuego(string resultado, Entrenador entrenador)
+        /// <summary>
+        ///     Crea la vista para la Evolución del PokemonActivo del Objeto Entrenador
+        /// </summary>
+        /// <param name="entrenador">Objeto Entrenador del que se toma el dato PokemonActivo</param>
+        public static void Evolucion(Entrenador entrenador)
         {
+            string actual = entrenador.PokemonActivo.Familia;
+            Console.WriteLine($"{actual} está evolucionando!");
+            entrenador.Evolucion();
+            Console.WriteLine($"Tu {actual} ahora es un {entrenador.PokemonActivo.Familia}");
+        }
+
+        /// <summary>
+        ///     Crea la vista de la finalización del juego. Muestra una vista distinta dependiendo del resultado del enfrentamientos. Limpia la variable que almacena al Objeto Entrenador para preparar el reinicio del juego. Retorna un bool para manejar el reinicio o cierre del juego
+        /// </summary>
+        /// <param name="resultado">string con el resultado del enfrentamiento</param>
+        /// <param name="entrenador">Objeto Entrenador a ser limpiuado</param>
+        /// <returns>bool reiniciar</returns>
+        public static bool FinDelJuego(string resultado, Entrenador entrenador)
+        {
+            bool reiniciar = true;
+
             if (!string.IsNullOrEmpty(resultado))
             {
                 Console.WriteLine("Han derrotado a tu Pokemon y tu aventura llega a su fin");
+                reiniciar = Validaciones.ValidarTecla("Presione ENTER para reiniciar o ESC para salir");
             }
             else
             {
                 Console.WriteLine("El juego a llegado a su fin");
-            }          
-            
+                reiniciar = Validaciones.ValidarTecla("Presione ENTER para reiniciar o ESC para salir");
+            }  
+
+            if (reiniciar)
+            {
+                Titulo();
+                Console.WriteLine("La consola va a reiniciarse");
+            }
+                
             PuntosSuspensivos();
-            Console.WriteLine("La consola va a reiniciarse");
             entrenador = null;
-            Console.ReadLine();
-            Console.Clear();
+            return reiniciar;
         }
 
-        static void PuntosSuspensivos()
+        /// <summary>
+        ///     Crea una vista de puntos suspensivos con delay para simular esperas
+        /// </summary>
+        private static void PuntosSuspensivos()
         {
             for (int i = 0; i < 3; i++)
             {

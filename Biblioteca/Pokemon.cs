@@ -182,5 +182,12 @@ namespace Biblioteca
             return exp;
         }
 
+        /// <summary>
+        ///     Método que maneja el uso de posiciones restauradoras. Todos los pókemon recibirán la misma cantidad de vida de cada posición. Este método puede ser modificado dependiendo del nivel evolutivo del Pokemon.
+        /// </summary>
+        public virtual void PosionRestauradora()
+        {
+            SetVida(Vida + 30);
+        }
     }
 }

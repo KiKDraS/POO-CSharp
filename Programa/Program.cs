@@ -9,70 +9,62 @@ namespace Programa
         {
             Console.Title = "Aventura Pokemon";
 
-            //Inicio del juego
-            string nombreEntrenador = Vistas.NombreEntrenador();
-
-            //Crear entrenador
-            Entrenador entrenador = new(nombreEntrenador);
-            Console.Clear();
-
-            //Selección de Pokemon Inicial
-            int pokemonInicial = Vistas.PokemonInicial();
-
-            //Cargar Pokemon Inicial en la Pokedex del Entrenador y configurarlo como Pokemon Activo
-            switch (pokemonInicial)
+            bool reiniciar = true;
+            do
             {
-                case 1:
-                    entrenador.AgregarPokemonPokedex(new Pikachu());    
-                    break;
-                case 2:
-                    entrenador.AgregarPokemonPokedex(new Bulbasaur());
-                    break;
-                case 3:
-                    entrenador.AgregarPokemonPokedex(new Squirtle());
-                    break;
-                case 4:
-                    entrenador.AgregarPokemonPokedex(new Charmander());
-                    break;
-            }
-            entrenador.SeleccionarPokemonActivo(0);
-            Console.Clear();
+                //Inicio del juego
+                string nombreEntrenador = Vistas.NombreEntrenador();
 
-            //Explorar
-            Vistas.Explorar(entrenador);
-            Console.ReadKey();
-            Console.Clear();
+                //Crear entrenador
+                Entrenador entrenador = new(nombreEntrenador);
+                Console.Clear();
 
-            //Enfrentamiento
-            string resultado = Vistas.Enfrentamiento(entrenador);
-            Console.Clear();
+                //Selección de Pokemon Inicial
+                int pokemonInicial = Vistas.PokemonInicial();
 
-            switch (resultado)
-            {
-                case "El Pokemon Salvaje a ganado":
-                    Vistas.FinDelJuego(resultado, entrenador);
-                    break;
-                case "Tu Pokemon a ganado":
-                    break;
-            }
+                //Cargar Pokemon Inicial en la Pokedex del Entrenador y configurarlo como Pokemon Activo
+                switch (pokemonInicial)
+                {
+                    case 1:
+                        entrenador.AgregarPokemonPokedex(new Pikachu());
+                        break;
+                    case 2:
+                        entrenador.AgregarPokemonPokedex(new Bulbasaur());
+                        break;
+                    case 3:
+                        entrenador.AgregarPokemonPokedex(new Squirtle());
+                        break;
+                    case 4:
+                        entrenador.AgregarPokemonPokedex(new Charmander());
+                        break;
+                }
+                entrenador.SeleccionarPokemonActivo(0);
+                Console.Clear();
 
+                //Explorar
+                Vistas.Explorar(entrenador);
+                Console.ReadKey();
+                Console.Clear();
 
-            //Evolucion
-            Console.WriteLine($"Pokemon Activo: { entrenador.PokemonActivo.Nombre }");
-            entrenador.PokemonActivo.SetExp(50);
-            entrenador.Evolucion();
-            Console.WriteLine($"Pokemon Activo: { entrenador.PokemonActivo.Nombre }");
+                //Enfrentamiento
+                string resultado = Vistas.Enfrentamiento(entrenador);
+                Console.Clear();
 
-            //Evolucion2
-            entrenador.SeleccionarPokemonActivo(1);
-            Console.WriteLine($"Pokemon Activo: { entrenador.PokemonActivo.Nombre }");
-            entrenador.PokemonActivo.SetExp(50);
-            entrenador.Evolucion();
-            Console.WriteLine($"Pokemon Activo: { entrenador.PokemonActivo.Nombre }");
-            entrenador.PokemonActivo.SetExp(100);
-            entrenador.Evolucion();
-            Console.WriteLine($"Pokemon Activo: { entrenador.PokemonActivo.Nombre }");
+                switch (resultado)
+                {
+                    case "El Pokemon Salvaje a ganado":
+                        reiniciar = Vistas.FinDelJuego(resultado, entrenador);
+                        Console.Clear();
+                        break;
+                    case "Tu Pokemon a ganado":
+                        entrenador.PokemonActivo.SetExp(50);
+                        Console.WriteLine("Recibe 50 puntos de experiencia");
+                        Vistas.Evolucion(entrenador);
+                        Console.Clear();
+                        break;
+                }
 
+            } while (reiniciar);
 
             //Excepciones
             //ash.PokemonActivo.Familia = "";
