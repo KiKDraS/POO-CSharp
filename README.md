@@ -5,7 +5,8 @@ La siguiente estructura corresponder a la creación de un Juego que le permita a
 //Estructura a desarrollar
 
 Clase Entrenador
-	constructor(nombre)	
+
+	//constructor(nombre)	
 		new Pokedex
 
 	//Atributos
@@ -33,6 +34,7 @@ Clase Pokedex
 	ActualizarPokedexEvolucion => Callback de Entrenador.Evolucion
 
 Clase Pokemon
+
 	//Dato Global
 	enum Tipo
 
@@ -52,13 +54,14 @@ Clase Pokemon
 	//Métodos
 	AtaqueTipo => Ejecutado como callback de Entrenador.Ataque
 	AtaqueTipo => Ejecutado como callback de Entrenador.AtaqueTipo. Llama al Método Abstracto RecibirGolpe
-	RecibirGolpe => Calcula el daño que se recibe por un AtaqueTipo usando los Métodos de Interface ITipo
+	abstract RecibirGolpe => Calcula el daño que se recibe por un AtaqueTipo usando los Métodos de Interface ITipo
 	Derrotado => Analiza Vida del Pokemon atacado. Si es 0 o menos, es derrotado. Callback de atacar(Pokemon)
 	Evolucionar => Callback de Entrenador.Evolucion. Crea una nueva instancia de Evolucion/Evolucion2 según corresponda
-	
+	vitrual PosicionRestauradora => Todos los pókemon recibirán la misma cantidad de vida de cada posición. Se modifica dependiendo del nivel evolutivo del Pokemon.
 
 Clase Basico: Pokemon, ITipo
-	constructor(tipo) => Si no se le pasa un nombre, el atributo nombre pasa a ser el de la clase clase sellada correspondiente
+
+	//constructor(tipo) => Si no se le pasa un nombre, el atributo nombre pasa a ser el de la clase clase sellada correspondiente
 	constructor(nombre, tipo)
 
 	//Atributos
@@ -70,7 +73,8 @@ Clase Basico: Pokemon, ITipo
 	
 
 Clase Evolucion: Pokemon, ITipo
-	constructor(Exp) => Si no recibe nombre, toma el nombre de la clase. Aplica Exp recibida a atributo Exp
+
+	//constructor(Exp) => Si no recibe nombre, toma el nombre de la clase. Aplica Exp recibida a atributo Exp
 	constructor(Nombre, Exp)
 
 	//Atributos
@@ -81,7 +85,8 @@ Clase Evolucion: Pokemon, ITipo
 	override RecibirGolpe
 
 Clase Evolucion2: Evolucion, ITipo
-	constructor(Exp) => Si no recibe nombre, toma el nombre de la clase. Aplica Exp recibida a atributo Exp
+
+	//constructor(Exp) => Si no recibe nombre, toma el nombre de la clase. Aplica Exp recibida a atributo Exp
 	constructor(Nombre, Exp)
 
 	//Atributos
@@ -95,12 +100,34 @@ sealed class Pikachu:Basico, ITipo
 
 sealed class Raichu:Evolucion, ITipo
 
-//Interfaces
-ITipo
-	Debilidad() - Calcula el daño recibido según el Tipo de Pokemon que lo provoca. Mayor daño por debilidad
-	Resistencia() - Calcula el daño recibido según el Tipo de Pokemon que lo provoca. Menor daño por resistencia 
+Clase Estática Vistas
+
+	//Métodos
+	private Titulo
+	NombreEntrenador
+	PokemonInicial
+	Explorar
+	Enfrentamiento
+	Evolucion
+	FinDelJuego
+	private GenerarMenu
+	private PuntosSuspensivos
+
+Clase Estática Validaciones
+
+	//Métodos
+	ValidarOpcionMenu
+	ValidarNumero
+	ValidarTecla
+
+Interfaces
+
+	//ITipo
+		Debilidad() - Calcula el daño recibido según el Tipo de Pokemon que lo provoca. Mayor daño por debilidad
+		Resistencia() - Calcula el daño recibido según el Tipo de Pokemon que lo provoca. Menor daño por resistencia 
 	
-//Excepciones Manejadas
-	ArgumentNullException
-	FamiliaNoEncontradaException
-	PokemonExisteException
+Excepciones Manejadas
+
+	//ArgumentNullException
+	//FamiliaNoEncontradaException
+	//PokemonExisteException
