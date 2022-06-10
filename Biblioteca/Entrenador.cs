@@ -20,16 +20,6 @@ namespace Biblioteca
 
         private Random rand = new();
 
-
-        public void GetPokemons()
-        {
-            var pokemons = Pokedex.GetPokemons();
-            foreach (var pokemon in pokemons)
-            {
-                Console.WriteLine(pokemon.Nombre);
-            }
-        }
-
         /// <summary>
         ///     Método para limpiar el dato PokemonActivo/PokemonSalvaje
         /// </summary>
@@ -86,6 +76,10 @@ namespace Biblioteca
             PokemonActivo = Pokedex.GetPokemon(i);
         }
 
+        /// <summary>
+        ///     Método que recibe un Objeto Pokemon y agrega como valor del Atributo Pokemon Salvaje
+        /// </summary>
+        /// <param name="pokemon"></param>
         public void Explorar(Pokemon pokemon)
         {
             PokemonSalvaje = pokemon;
@@ -162,6 +156,14 @@ namespace Biblioteca
             {
                 Console.WriteLine($"Error Familia exception: {ex.Message}");
             }
+        }
+
+        /// <summary>
+        ///     LLamado al método DarPocion() del Objeto Pokemon
+        /// </summary>
+        public void DarPocion()
+        {
+            PokemonActivo.PocionRestauradora();
         }
     }
 }

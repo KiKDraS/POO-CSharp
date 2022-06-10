@@ -56,10 +56,10 @@ namespace Programa
                         reiniciar = Vistas.FinDelJuego(resultado, entrenador);
                         Console.Clear();
                         break;
-                    case "Tu Pokemon a ganado":
-                        entrenador.PokemonActivo.SetExp(50);
-                        Console.WriteLine("Recibe 50 puntos de experiencia");
-                        Vistas.Evolucion(entrenador);
+                    case "Tu Pokemon ha ganado":
+                        Vistas.Ganador(resultado, entrenador);
+                        Console.Clear();
+                        reiniciar = Vistas.FinDelJuego("", entrenador);
                         Console.Clear();
                         break;
                 }

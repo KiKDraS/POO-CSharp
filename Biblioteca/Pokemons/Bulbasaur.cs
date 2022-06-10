@@ -29,6 +29,8 @@ namespace Biblioteca.Pokemons
             else if (tipo == Tipo.Agua)
                 golpe = Resistencia(golpe);
 
+            if (golpe < 0) golpe = 0;
+
             return golpe;
         }
     }

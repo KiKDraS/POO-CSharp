@@ -33,6 +33,8 @@ namespace Biblioteca.Pokemons
             else if (tipo == Tipo.Planta)
                 golpe = Resistencia(golpe);
 
+            if (golpe < 0) golpe = 0;
+
             return golpe;
         }
     }

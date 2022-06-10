@@ -118,7 +118,7 @@ namespace Biblioteca
                 if(entrenador.PokemonSalvaje is null)
                 {
                     Console.WriteLine("El Pokemon Salvaje ha sido derrotado");
-                    resultado = "Tu Pokemon a ganado";
+                    resultado = "Tu Pokemon ha ganado";
                     break;
                 }
                 else
@@ -134,6 +134,22 @@ namespace Biblioteca
         }
 
         /// <summary>
+        ///     Crea la vista para el enfrentamiento victorioso contra el Pokemon Salvaje. Muestra el resultado en pantalla. Aplica la experiencia obtenida por el Pokemon Activo de entrenador recibido por parámetro. 
+        /// </summary>
+        /// <param name="resultado"></param>
+        /// <param name="entrenador"></param>
+        public static void Ganador(string resultado, Entrenador entrenador)
+        {
+            Titulo();
+            Console.WriteLine(resultado);
+            entrenador.PokemonActivo.SetExp(50);
+            Console.WriteLine("Se le aplicará una posición para sanar sus heridas");
+            entrenador.DarPocion();
+            Console.WriteLine("Recibe 50 puntos de experiencia");
+            Vistas.Evolucion(entrenador);
+        }
+
+        /// <summary>
         ///     Crea la vista para la Evolución del PokemonActivo del Objeto Entrenador
         /// </summary>
         /// <param name="entrenador">Objeto Entrenador del que se toma el dato PokemonActivo</param>
@@ -143,6 +159,7 @@ namespace Biblioteca
             Console.WriteLine($"{actual} está evolucionando!");
             entrenador.Evolucion();
             Console.WriteLine($"Tu {actual} ahora es un {entrenador.PokemonActivo.Familia}");
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -157,11 +174,13 @@ namespace Biblioteca
 
             if (!string.IsNullOrEmpty(resultado))
             {
+                Titulo();
                 Console.WriteLine("Han derrotado a tu Pokemon y tu aventura llega a su fin");
                 reiniciar = Validaciones.ValidarTecla("Presione ENTER para reiniciar o ESC para salir");
             }
             else
             {
+                Titulo();
                 Console.WriteLine("El juego a llegado a su fin");
                 reiniciar = Validaciones.ValidarTecla("Presione ENTER para reiniciar o ESC para salir");
             }  
@@ -204,5 +223,19 @@ namespace Biblioteca
                 Console.Write(".");
             }
         }
+
+        /// <summary>
+        ///     Genera una lista de los Pokemon almacenados en el atributo Pokedex del Objeto Entrenador recibido por parámetro
+        /// </summary>
+        /// <param name="entrenador"></param>
+        public static  void GetPokemons(Entrenador entrenador)
+        {
+            var pokemons = entrenador.Pokedex.GetPokemons();
+            foreach (var pokemon in pokemons)
+            {
+                Console.WriteLine(pokemon.Nombre);
+            }
+        }
+
     }
 }

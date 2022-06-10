@@ -31,6 +31,8 @@ namespace Biblioteca.Pokemons
             else if (tipo == Tipo.Fuego)
                 golpe = Resistencia(golpe);
 
+            if (golpe < 0) golpe = 0;
+
             return golpe;
         }
     }
