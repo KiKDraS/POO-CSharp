@@ -35,7 +35,7 @@ namespace Biblioteca
 
         public override int RecibirGolpe(Tipo tipo, int golpe) { return 0; }
 
-        public new void PosionRestauradora()
+        public new void PocionRestauradora()
         {
             SetVida(Vida + 50);
         }
