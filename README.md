@@ -135,11 +135,13 @@ Excepciones Manejadas
 //Peticiones manejadas a la Base de Datos
 
 Entrenador
+
 	//Todos los entrenadores => Vista de selección de entrenador
 	//Entrenador por id => Creación de Objeto Entrenador
 	//Agregar Entrenador => Guardado de Partida Nueva
 
 Pokedex
+
 	//Todos los pokemon del entrenador por id entrenador => Carga de Lista Pokedex en Objeto Entrenador
 	//Modificar pokemon por Id => Actualización de Partida
 	//Agregar pokemon => Actualización de Pokedex en Objeto Entrenador
