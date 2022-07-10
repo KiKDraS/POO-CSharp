@@ -13,6 +13,14 @@ namespace Biblioteca
             Pokedex = new Pokedex();
         }
 
+        public Entrenador(int id, string nombre)
+        {
+            Id = id;
+            Nombre = nombre;
+            Pokedex = new Pokedex();
+        }
+
+        public  int Id { get; set; } 
         public string Nombre { get; set; }
         public Pokedex Pokedex { get; set; }
         public Pokemon? PokemonActivo { get; set; }
@@ -25,7 +33,7 @@ namespace Biblioteca
         /// </summary>
         public void BorrarPokemon(Pokemon pokemon)
         {
-            if (PokemonActivo.Familia == pokemon.Familia && PokemonActivo.Nombre == pokemon.Nombre)
+            if (PokemonActivo.Familia == pokemon.Familia && PokemonActivo.NombrePokemon == pokemon.NombrePokemon)
                 PokemonActivo = null;
             else
                 PokemonSalvaje = null;
@@ -39,10 +47,10 @@ namespace Biblioteca
         {
             string str = "";
 
-            if(PokemonActivo.Nombre == PokemonActivo.Familia)
-                return PokemonActivo.Nombre;
+            if(PokemonActivo.NombrePokemon == PokemonActivo.Familia)
+                return PokemonActivo.NombrePokemon;
             else
-                str = $"{PokemonActivo.Nombre}({PokemonActivo.Familia})";
+                str = $"{PokemonActivo.NombrePokemon}({PokemonActivo.Familia})";
             
             return str;
         }

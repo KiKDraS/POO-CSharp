@@ -24,6 +24,11 @@ namespace Biblioteca
             return Pokemons[i];
         }
 
+        public void InsertPokemon(Pokemon pokemon)
+        {
+            Pokemons.Add(pokemon);
+        }
+
         /// <summary>
         ///     Actualiza las listas de Pokemon según corresponda. Maneja errores con la excepcion ArgumentNullException
         /// </summary>
@@ -33,7 +38,7 @@ namespace Biblioteca
             if (pokemon == null)
                 throw new NullReferenceException("No pudimos actualizar la Pokedex. Tenemos problemas para encontrar la información del Pokemon");
 
-            var existe = Pokemons.Find(poke => poke.Familia == pokemon.Familia && poke.Nombre == poke.Nombre);
+            var existe = Pokemons.Find(poke => poke.Familia == pokemon.Familia && poke.NombrePokemon == poke.NombrePokemon);
             if (existe != null)
                 throw new PokemonExisteException("No pudimos actualizar la Pokedex. El Pokemon ya existe.");
             else
@@ -49,7 +54,7 @@ namespace Biblioteca
         {
             if (evolucionando == null || evolucion == null)
                 throw new NullReferenceException("No pudimos actualizar la Pokedex. Tenemos problemas para encontrar la información del Pokemon");
-            var evol = Pokemons.Find(poke => poke.Familia == evolucionando.Familia && poke.Nombre == evolucionando.Nombre);
+            var evol = Pokemons.Find(poke => poke.Familia == evolucionando.Familia && poke.NombrePokemon == evolucionando.NombrePokemon);
             if (evol != null)
                 Pokemons.Remove(evol);
 

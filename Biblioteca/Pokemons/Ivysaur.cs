@@ -8,6 +8,13 @@ namespace Biblioteca.Pokemons
 {
     public sealed class Ivysaur : Evolucion
     {
+        public Ivysaur() : base()
+        {
+            Evoluciones = 3;
+            EtapaActual = 2;
+            TipoPokemon = Tipo.Planta;
+        }
+
         public Ivysaur(int exp) : base(exp)
         {
             Evoluciones = 3;

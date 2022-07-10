@@ -1,5 +1,7 @@
 ﻿using Biblioteca;
 using Biblioteca.Pokemons;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace Programa
 {
@@ -13,32 +15,7 @@ namespace Programa
             do
             {
                 //Inicio del juego
-                string nombreEntrenador = Vistas.NombreEntrenador();
-
-                //Crear entrenador
-                Entrenador entrenador = new(nombreEntrenador);
-                Console.Clear();
-
-                //Selección de Pokemon Inicial
-                int pokemonInicial = Vistas.PokemonInicial();
-
-                //Cargar Pokemon Inicial en la Pokedex del Entrenador y configurarlo como Pokemon Activo
-                switch (pokemonInicial)
-                {
-                    case 1:
-                        entrenador.AgregarPokemonPokedex(new Pikachu());
-                        break;
-                    case 2:
-                        entrenador.AgregarPokemonPokedex(new Bulbasaur());
-                        break;
-                    case 3:
-                        entrenador.AgregarPokemonPokedex(new Squirtle());
-                        break;
-                    case 4:
-                        entrenador.AgregarPokemonPokedex(new Charmander());
-                        break;
-                }
-                entrenador.SeleccionarPokemonActivo(0);
+                Entrenador entrenador = Vistas.InicioJuego();
                 Console.Clear();
 
                 //Explorar
@@ -66,13 +43,12 @@ namespace Programa
 
             } while (reiniciar);
 
-            //Excepciones
-            //ash.PokemonActivo.Familia = "";
-            //ash.Evolucion();
-            //ash.PokemonActivo = null;
-            //ash.Evolucion();
-            //ash.AgregarPokemonPokedex(new Pikachu());
-
+            ////Excepciones
+            ////ash.PokemonActivo.Familia = "";
+            ////ash.Evolucion();
+            ////ash.PokemonActivo = null;
+            ////ash.Evolucion();
+            ////ash.AgregarPokemonPokedex(new Pikachu());
         }
 
     }

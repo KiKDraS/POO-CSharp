@@ -8,6 +8,14 @@ namespace Biblioteca.Pokemons
 {
     public sealed class Charmeleon : Evolucion
     {
+        public Charmeleon() : base()
+        {
+            Evoluciones = 3;
+            EtapaActual = 2;
+            TipoPokemon = Tipo.Fuego;
+
+        }
+
         public Charmeleon(int exp) : base(exp)
         {
             Evoluciones = 3;

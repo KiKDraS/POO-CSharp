@@ -8,6 +8,13 @@ namespace Biblioteca.Pokemons
 {
     public sealed class Charizard : Evolucion2
     {
+        public Charizard() : base()
+        {
+            Evoluciones = 3;
+            EtapaActual = 3;
+            TipoPokemon = Tipo.Fuego;
+        }
+
         public Charizard(int exp) : base(exp)
         {
             Evoluciones = 3;

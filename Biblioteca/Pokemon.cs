@@ -20,30 +20,39 @@ namespace Biblioteca
     {
         protected Pokemon()
         {
-            Nombre = GetType().Name;
+            NombrePokemon = GetType().Name;
             Familia = GetType().Name;
         }
 
-        protected Pokemon(string nombre)
+        protected Pokemon(string entrenador)
         {
-            Nombre = nombre;
+            NombrePokemon = GetType().Name;
             Familia = GetType().Name;
+            NombreEntrenador = entrenador;
         }
-        public string Nombre { get; set; }
 
-        public string Familia { get; set; }
+        protected Pokemon(string nombre, string entrenador)
+        {
+            NombrePokemon = nombre;
+            Familia = GetType().Name;
+            NombreEntrenador= entrenador;
+        }
 
-        protected Tipo TipoPokemon { get; set; }
-
-        protected int Evoluciones { get; set; }
-
-        public int EtapaActual { get; set; }
-
+        public int Id { get; set; }
+        public string? NombreEntrenador { get; set; }
+        public int EntrenadorId { get; set; }
+        public int PokemonBaseId { get; set; }
+        public string NombrePokemon { get; set; }
         public int Vida { get; set; }
-
-        protected int Golpe { get; set; }
-
         public int Exp { get; set; }
+        public string Familia { get; set; }
+        public bool Is_Avible { get; set; }
+        public bool Is_Active { get; set; }
+        protected Tipo TipoPokemon { get; set; }
+        protected int Evoluciones { get; set; }
+        public int EtapaActual { get; set; }
+        public int Golpe { get; set; }
+
 
         public void SetVida(int vida) {
             Vida = vida;
@@ -68,28 +77,28 @@ namespace Biblioteca
                 switch (Familia)
                 {
                     case "Pikachu":
-                        if (Nombre == Familia)
+                        if (NombrePokemon == Familia)
                             pokemon = new Raichu(Exp);
                         else
-                            pokemon = new Raichu(Nombre, Exp);
+                            pokemon = new Raichu(NombrePokemon, Exp);
                         break;
                     case "Bulbasaur":
-                        if (Nombre == Familia)
+                        if (NombrePokemon == Familia)
                             pokemon = new Ivysaur(Exp);
                         else
-                            pokemon = new Ivysaur(Nombre, Exp);
+                            pokemon = new Ivysaur(NombrePokemon, Exp);
                         break;
                     case "Charmander":
-                        if (Nombre == Familia)
+                        if (NombrePokemon == Familia)
                             pokemon = new Charmeleon(Exp);
                         else
-                            pokemon = new Charmeleon(Nombre, Exp);
+                            pokemon = new Charmeleon(NombrePokemon, Exp);
                         break;
                     case "Squirtle":
-                        if (Nombre == Familia)
+                        if (NombrePokemon == Familia)
                             pokemon = new Wartortle(Exp);
                         else
-                            pokemon = new Wartortle(Nombre, Exp);
+                            pokemon = new Wartortle(NombrePokemon, Exp);
                         break;
                     default: throw new FamiliaNoEncontradaException("No se encontró Basico");
                 }
@@ -99,22 +108,22 @@ namespace Biblioteca
                 switch (Familia)
                 {
                     case "Ivysaur":
-                        if (Nombre == Familia)
+                        if (NombrePokemon == Familia)
                             pokemon = new Venasaur(Exp);
                         else
-                            pokemon = new Venasaur(Nombre, Exp);
+                            pokemon = new Venasaur(NombrePokemon, Exp);
                         break;
                     case "Charmeleon":
-                        if (Nombre == Familia)
+                        if (NombrePokemon == Familia)
                             pokemon = new Charizard(Exp);
                         else
-                            pokemon = new Charizard(Nombre, Exp);
+                            pokemon = new Charizard(NombrePokemon, Exp);
                         break;
                     case "Wartortle":
-                        if (Nombre == Familia)
+                        if (NombrePokemon == Familia)
                             pokemon = new Blastoise(Exp);
                         else
-                            pokemon = new Blastoise(Nombre, Exp);
+                            pokemon = new Blastoise(NombrePokemon, Exp);
                         break;
                     default: throw new FamiliaNoEncontradaException("No se encontró Evolucion");
                 }

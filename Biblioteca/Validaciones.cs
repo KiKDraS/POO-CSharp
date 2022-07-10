@@ -26,6 +26,47 @@ namespace Biblioteca
         }
 
         /// <summary>
+        ///     Método que evita que el nombre del entrenador quede vacío
+        /// </summary>
+        /// <param name="existentes"></param>
+        /// <returns>Nombre listo para la creación del Objeto Entrenador</returns>
+        public static string ValidarNombreVacio(List<string> existentes)
+        {
+            string nombre = Console.ReadLine();
+
+            while (string.IsNullOrEmpty(nombre.Trim()) || nombre.Trim().Length == 0)
+            {
+                Console.WriteLine("Debes elegir un nombre");
+                nombre = Console.ReadLine();
+            }
+            bool isUnique = ValidarNombreUnico(nombre, existentes);
+            while (isUnique)
+            {
+                Console.WriteLine("El nombre ya existe. Prueba otro");
+                string nuevo = Console.ReadLine();
+                isUnique = ValidarNombreUnico(nuevo, existentes);
+            }
+            return nombre.Trim();
+        }
+
+        /// <summary>
+        ///     Método que analiza el nombre elegido para evitar que haya dos cuentas con el mismo nombre
+        /// </summary>
+        /// <param name="nombre"></param>
+        /// <param name="existentes"></param>
+        /// <returns>Nombre validado</returns>
+        public static bool ValidarNombreUnico(string nombre, List<string> existentes)
+        {
+            bool isUnique = false;
+            foreach (var nombreExistente in existentes)
+            {
+                if(nombreExistente.ToLower() == nombre.ToLower()) { isUnique = true; break; }
+            }
+
+            return isUnique;
+        }
+
+        /// <summary>
         ///     Método creado para la validar que el usuario ingrese un número por consola
         /// </summary>
         /// <returns>int seleccion que representa el número seleccionado</returns>

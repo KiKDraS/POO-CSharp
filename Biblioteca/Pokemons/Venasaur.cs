@@ -8,6 +8,13 @@ namespace Biblioteca.Pokemons
 {
     public sealed class Venasaur : Evolucion2
     {
+        public Venasaur() : base()
+        {
+            Evoluciones = 3;
+            EtapaActual = 3;
+            TipoPokemon = Tipo.Planta;
+        }
+
         public Venasaur(int exp) : base(exp)
         {
             Evoluciones = 3;

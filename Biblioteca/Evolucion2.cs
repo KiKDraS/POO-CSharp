@@ -9,6 +9,11 @@ namespace Biblioteca
 {
     public class Evolucion2 : Evolucion, ITipo
     {
+        public Evolucion2() : base()
+        {
+            Vida = 150;
+            Golpe = 30;
+        }
         public Evolucion2(int exp) : base(exp)
         {
             Vida = 150;

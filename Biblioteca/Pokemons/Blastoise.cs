@@ -8,6 +8,14 @@ namespace Biblioteca.Pokemons
 {
     public sealed class Blastoise : Evolucion2
     {
+        public Blastoise() : base()
+        {
+            Evoluciones = 3;
+            EtapaActual = 3;
+            TipoPokemon = Tipo.Agua;
+
+        }
+
         public Blastoise(int exp) : base(exp)
         {
             Evoluciones = 3;

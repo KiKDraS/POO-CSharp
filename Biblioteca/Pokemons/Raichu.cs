@@ -8,6 +8,12 @@ namespace Biblioteca.Pokemons
 {
     public sealed class Raichu : Evolucion
     {
+        public Raichu() : base()
+        {
+            Evoluciones = 2;
+            EtapaActual = 2;
+            TipoPokemon = Tipo.Electrico;
+        }
         public Raichu(int exp) : base(exp)
         {
             Evoluciones = 2;

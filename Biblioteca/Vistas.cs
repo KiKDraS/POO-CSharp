@@ -4,18 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Biblioteca.Pokemons;
+using BLL;
 
 namespace Biblioteca
 {
     public static class Vistas
     {
-        private static readonly List<string> PokemonsIniciales = new()
-        {
-            "Pikachu",
-            "Bulbasaur",
-            "Squirtle",
-            "Charmander"
-        };
+        //private static readonly List<string> PokemonsIniciales = new()
+        //{
+        //    "Pikachu",
+        //    "Bulbasaur",
+        //    "Squirtle",
+        //    "Charmander"
+        //};
 
         private static readonly List<string> TiposAtaques = new()
         {
@@ -38,14 +39,345 @@ namespace Biblioteca
         }
 
         /// <summary>
-        ///     Arma la vista para la creación de Objeto Entrenador
+        ///     Arma la vista para la creación del Objeto Entrenador tomando en cuenta la existencia o no de una partida iniciada
         /// </summary>
         /// <returns>Objeto Entrenador</returns>
-        public static string NombreEntrenador()
+        public static Entrenador InicioJuego()
+        {
+            Entrenador entrenador = null;
+            List<string> menuInicio = new() { "Nueva Aventura", "Continuar Aventura" };
+
+            Titulo();
+            Console.WriteLine("Bienvenid@. Quieres iniciar una Nueva Aventura o Continuar una iniciada?");            
+            GenerarMenu(menuInicio);
+            int seleccion = Validaciones.ValidarNumero();
+            seleccion =  Validaciones.ValidarOpcionMenu(menuInicio, seleccion);
+
+            if (seleccion == 1)
+            {
+                Console.Clear();
+                //Obtener Entrenadores en BD y armar Lista menú
+                var entrenadores = BLLEntrenador.ObtenerTodos();
+                List<string> menuEntreadores = new();
+                foreach (var entre in entrenadores)
+                {
+                    menuEntreadores.Add(entre.Nombre);
+                }
+                //Crear Objeto Entrenador
+                string nombreEntrendaor = NombreEntrenador(menuEntreadores);
+                entrenador = new(nombreEntrendaor);
+                Console.Clear();
+                //Obtener Pokemones Iniciales de BD
+                var pokemonesIniciales = BLLPokemones.ObtenerPokemonsIniciales();
+                List<string> menuPokeIniciales = new();
+                foreach (var poke in pokemonesIniciales)
+                {
+                    menuPokeIniciales.Add(poke.Familia);
+                }
+                //Crear Pokemon Inicial
+                string pokemonInicial = PokemonInicial(menuPokeIniciales);
+                switch (pokemonInicial)
+                {
+                    case "Pikachu":
+                        var plantillaPikachu = BLLPokemones.ObtenerUnPokemon(pokemonesIniciales, pokemonInicial);
+                        Pikachu pikachu = new()
+                        {
+                            NombreEntrenador = entrenador.Nombre,
+                            PokemonBaseId = plantillaPikachu.PokemonBaseId,
+                            Vida = plantillaPikachu.Vida,
+                            Golpe = plantillaPikachu.Golpe,
+                            Familia = plantillaPikachu.Familia,
+                            Is_Avible = true,
+                            Is_Active = true
+                        };
+                        entrenador.AgregarPokemonPokedex(pikachu);
+                        break;
+                    case "Squirtle":
+                        var plantillaSquirtle = BLLPokemones.ObtenerUnPokemon(pokemonesIniciales, pokemonInicial);
+                        Squirtle squirtle = new()
+                        {
+                            NombreEntrenador = entrenador.Nombre,
+                            PokemonBaseId = plantillaSquirtle.PokemonBaseId,
+                            Vida = plantillaSquirtle.Vida,
+                            Golpe = plantillaSquirtle.Golpe,
+                            Familia = plantillaSquirtle.Familia,
+                            Is_Avible = true,
+                            Is_Active = true
+                        };
+                        entrenador.AgregarPokemonPokedex(squirtle);
+                        break;
+                    case "Bulbasaur":
+                        var plantillaBulbasaur = BLLPokemones.ObtenerUnPokemon(pokemonesIniciales, pokemonInicial);
+                        Bulbasaur bulbasaur = new()
+                        {
+                            NombreEntrenador = entrenador.Nombre,
+                            PokemonBaseId = plantillaBulbasaur.PokemonBaseId,
+                            Vida = plantillaBulbasaur.Vida,
+                            Golpe = plantillaBulbasaur.Golpe,
+                            Familia = plantillaBulbasaur.Familia,
+                            Is_Avible = true,
+                            Is_Active = true
+                        };
+                        entrenador.AgregarPokemonPokedex(bulbasaur);
+                        break;
+                    case "Charmander":
+                        var plantilaCharmander = BLLPokemones.ObtenerUnPokemon(pokemonesIniciales, pokemonInicial);
+                        Charmander charmander = new()
+                        {
+                            NombreEntrenador = entrenador.Nombre,
+                            PokemonBaseId = plantilaCharmander.PokemonBaseId,
+                            Vida = plantilaCharmander.Vida,
+                            Golpe = plantilaCharmander.Golpe,
+                            Familia = plantilaCharmander.Familia,
+                            Is_Avible = true,
+                            Is_Active = true
+                        };
+                        entrenador.AgregarPokemonPokedex(charmander);
+                        entrenador.AgregarPokemonPokedex(new Charmander());
+                        break;
+                } 
+                //Poner como Pokemon Activo
+                entrenador.SeleccionarPokemonActivo(0);
+                Console.Clear();
+            }
+            else
+            {
+                Console.Clear();
+                //Obtener Entrenadores en BD y armar Lista menú
+                var entrenadores = BLLEntrenador.ObtenerTodos();
+                List<string> menuEntreadores = new();
+                foreach (var entre in entrenadores)
+                {
+                    menuEntreadores.Add(entre.Nombre);
+                }
+                Titulo();
+                //Crear Objeto Entrenador
+                Console.WriteLine("Selecciona tu partida");
+                GenerarMenu(menuEntreadores);
+                int seleccionEntrenador = Validaciones.ValidarNumero();
+                seleccionEntrenador = Validaciones.ValidarOpcionMenu(menuInicio, seleccionEntrenador);
+                foreach (var item in entrenadores)
+                {
+                    if (item.Nombre == menuEntreadores[seleccionEntrenador - 1])
+                    {
+                        entrenador = new(item.Id, item.Nombre);
+                        break;
+                    }
+                }
+                //Obtener Pokemones de Entrenador en BD
+                var pokemones = BLLPokemones.ObtenerPokemonsEntrenador(entrenador.Id);
+                //Creación de Pokedex
+                Pokedex pokedex = new();
+                foreach (var pokemon in pokemones)
+                {
+                    switch (pokemon.Familia)
+                    {
+                        case "Pikachu":
+                            Pikachu pikachu = new()
+                            {
+                                Id = pokemon.Id,
+                                NombreEntrenador = pokemon.NombreEntrenador,
+                                EntrenadorId = pokemon.EntrenadorId,
+                                PokemonBaseId = pokemon.PokemonBaseId,
+                                NombrePokemon = pokemon.NombrePokemon,
+                                Vida = pokemon.Vida,
+                                Exp = pokemon.Exp,
+                                Golpe = pokemon.Golpe,
+                                Familia = pokemon.Familia,
+                                Is_Avible = pokemon.Is_Aviable,
+                                Is_Active = pokemon.Is_Active
+                            };
+                            pokedex.InsertPokemon(pikachu);
+                            break;
+                        case "Raichu":
+                            Raichu raichu = new()
+                            {
+                                Id = pokemon.Id,
+                                NombreEntrenador = pokemon.NombreEntrenador,
+                                EntrenadorId = pokemon.EntrenadorId,
+                                PokemonBaseId = pokemon.PokemonBaseId,
+                                NombrePokemon = pokemon.NombrePokemon,
+                                Vida = pokemon.Vida,
+                                Exp = pokemon.Exp,
+                                Golpe = pokemon.Golpe,
+                                Familia = pokemon.Familia,
+                                Is_Avible = pokemon.Is_Aviable,
+                                Is_Active = pokemon.Is_Active
+                            };
+                            pokedex.InsertPokemon(raichu);
+                            break;
+                        case "Bulbasaur":
+                            Bulbasaur bulbasaur = new()
+                            {
+                                Id = pokemon.Id,
+                                NombreEntrenador = pokemon.NombreEntrenador,
+                                EntrenadorId = pokemon.EntrenadorId,
+                                PokemonBaseId = pokemon.PokemonBaseId,
+                                NombrePokemon = pokemon.NombrePokemon,
+                                Vida = pokemon.Vida,
+                                Exp = pokemon.Exp,
+                                Golpe = pokemon.Golpe,
+                                Familia = pokemon.Familia,
+                                Is_Avible = pokemon.Is_Aviable,
+                                Is_Active = pokemon.Is_Active
+                            };
+                            pokedex.InsertPokemon(bulbasaur);
+                            break;
+                        case "Ivysaur":
+                            Ivysaur ivysaur = new()
+                            {
+                                Id = pokemon.Id,
+                                NombreEntrenador = pokemon.NombreEntrenador,
+                                EntrenadorId = pokemon.EntrenadorId,
+                                PokemonBaseId = pokemon.PokemonBaseId,
+                                NombrePokemon = pokemon.NombrePokemon,
+                                Vida = pokemon.Vida,
+                                Exp = pokemon.Exp,
+                                Golpe = pokemon.Golpe,
+                                Familia = pokemon.Familia,
+                                Is_Avible = pokemon.Is_Aviable,
+                                Is_Active = pokemon.Is_Active
+                            };
+                            pokedex.InsertPokemon(ivysaur);
+                            break;
+                        case "Venasaur":
+                            Venasaur venasaur = new()
+                            {
+                                Id = pokemon.Id,
+                                NombreEntrenador = pokemon.NombreEntrenador,
+                                EntrenadorId = pokemon.EntrenadorId,
+                                PokemonBaseId = pokemon.PokemonBaseId,
+                                NombrePokemon = pokemon.NombrePokemon,
+                                Vida = pokemon.Vida,
+                                Exp = pokemon.Exp,
+                                Golpe = pokemon.Golpe,
+                                Familia = pokemon.Familia,
+                                Is_Avible = pokemon.Is_Aviable,
+                                Is_Active = pokemon.Is_Active
+                            };
+                            pokedex.InsertPokemon(venasaur);
+                            break;
+                        case "Squirtle":
+                            Squirtle squirtle = new()
+                            {
+                                Id = pokemon.Id,
+                                NombreEntrenador = pokemon.NombreEntrenador,
+                                EntrenadorId = pokemon.EntrenadorId,
+                                PokemonBaseId = pokemon.PokemonBaseId,
+                                NombrePokemon = pokemon.NombrePokemon,
+                                Vida = pokemon.Vida,
+                                Exp = pokemon.Exp,
+                                Golpe = pokemon.Golpe,
+                                Familia = pokemon.Familia,
+                                Is_Avible = pokemon.Is_Aviable,
+                                Is_Active = pokemon.Is_Active
+                            };
+                            pokedex.InsertPokemon(squirtle);
+                            break;
+                        case "Wartortle":
+                            Wartortle wartortle = new()
+                            {
+                                Id = pokemon.Id,
+                                NombreEntrenador = pokemon.NombreEntrenador,
+                                EntrenadorId = pokemon.EntrenadorId,
+                                PokemonBaseId = pokemon.PokemonBaseId,
+                                NombrePokemon = pokemon.NombrePokemon,
+                                Vida = pokemon.Vida,
+                                Exp = pokemon.Exp,
+                                Golpe = pokemon.Golpe,
+                                Familia = pokemon.Familia,
+                                Is_Avible = pokemon.Is_Aviable,
+                                Is_Active = pokemon.Is_Active
+                            };
+                            pokedex.InsertPokemon(wartortle);
+                            break;
+                        case "Blastoise":
+                            Blastoise blastoise = new()
+                            {
+                                Id = pokemon.Id,
+                                NombreEntrenador = pokemon.NombreEntrenador,
+                                EntrenadorId = pokemon.EntrenadorId,
+                                PokemonBaseId = pokemon.PokemonBaseId,
+                                NombrePokemon = pokemon.NombrePokemon,
+                                Vida = pokemon.Vida,
+                                Exp = pokemon.Exp,
+                                Golpe = pokemon.Golpe,
+                                Familia = pokemon.Familia,
+                                Is_Avible = pokemon.Is_Aviable,
+                                Is_Active = pokemon.Is_Active
+                            };
+                            pokedex.InsertPokemon(blastoise);
+                            break;
+                        case "Charmander":
+                            Charmander charmander = new()
+                            {
+                                Id = pokemon.Id,
+                                NombreEntrenador = pokemon.NombreEntrenador,
+                                EntrenadorId = pokemon.EntrenadorId,
+                                PokemonBaseId = pokemon.PokemonBaseId,
+                                NombrePokemon = pokemon.NombrePokemon,
+                                Vida = pokemon.Vida,
+                                Exp = pokemon.Exp,
+                                Golpe = pokemon.Golpe,
+                                Familia = pokemon.Familia,
+                                Is_Avible = pokemon.Is_Aviable,
+                                Is_Active = pokemon.Is_Active
+                            };
+                            pokedex.InsertPokemon(charmander);
+                            break;
+                        case "Charmeleon":
+                            Charmeleon charmeleon = new()
+                            {
+                                Id = pokemon.Id,
+                                NombreEntrenador = pokemon.NombreEntrenador,
+                                EntrenadorId = pokemon.EntrenadorId,
+                                PokemonBaseId = pokemon.PokemonBaseId,
+                                NombrePokemon = pokemon.NombrePokemon,
+                                Vida = pokemon.Vida,
+                                Exp = pokemon.Exp,
+                                Golpe = pokemon.Golpe,
+                                Familia = pokemon.Familia,
+                                Is_Avible = pokemon.Is_Aviable,
+                                Is_Active = pokemon.Is_Active
+                            };
+                            pokedex.InsertPokemon(charmeleon);
+                            break;
+                        case "Charizard":
+                            Charizard charizard = new()
+                            {
+                                Id = pokemon.Id,
+                                NombreEntrenador = pokemon.NombreEntrenador,
+                                EntrenadorId = pokemon.EntrenadorId,
+                                PokemonBaseId = pokemon.PokemonBaseId,
+                                NombrePokemon = pokemon.NombrePokemon,
+                                Vida = pokemon.Vida,
+                                Exp = pokemon.Exp,
+                                Golpe = pokemon.Golpe,
+                                Familia = pokemon.Familia,
+                                Is_Avible = pokemon.Is_Aviable,
+                                Is_Active = pokemon.Is_Active
+                            };
+                            pokedex.InsertPokemon(charizard);
+                            break;
+                    }
+                }
+
+                //Agregar a Entrenador
+                entrenador.Pokedex = pokedex;
+            }
+
+                return entrenador;
+        }
+
+        /// <summary>
+        ///     Arma la vista para la selcción de un nombre para una cuenta nueva
+        /// </summary>
+        /// <returns>Nombre Entrenador</returns>
+        public static string NombreEntrenador(List<string> menuEntrenadores)
         {
             Titulo();
             Console.WriteLine("Elije un nombre para tu personaje");
-            string nombre = Console.ReadLine();
+            string nombre = Validaciones.ValidarNombreVacio(menuEntrenadores);
             return nombre;
         }
 
@@ -53,19 +385,19 @@ namespace Biblioteca
         ///    Imprime en patalla un menú que permite seleccionar el Pokemon inicial. Crea un Objeto Basico de   la clase sellada correpondiente con la selección. Utiliza el método GenerarMenu para la creación del menú a mostrar
         /// </summary>
         /// <returns>Objeto Basico</returns>
-        public static int PokemonInicial(){
+        public static string PokemonInicial(List<string> menu){
             Titulo();
             Console.WriteLine("Selecciona un Pokemon para iniciar la Aventura:");
-            GenerarMenu(PokemonsIniciales);
+            GenerarMenu(menu);
             int seleccion = Validaciones.ValidarNumero();
-            int pokemonInicial = Validaciones.ValidarOpcionMenu(PokemonsIniciales, seleccion);
-            return pokemonInicial;
+            int pokemonInicial = Validaciones.ValidarOpcionMenu(menu, seleccion);
+            return menu[pokemonInicial-1];
         }
 
         /// <summary>
-        ///     Crea la vista para la explorar en el juego. Explorar implica la creación de un Objeto Pokemon y la inserción del mismo en el atributo PokemonSalvaje del Objeto Entrenador
+        ///     Crea la vista para la explorar en el juego. Explorar implica la creación de un Objeto Pokemon y la inserción del mismo en el atributo PokemonSalvaje del Objeto NombreEntrenador
         /// </summary>
-        /// <param name="entrenador">Objeto Entrenador que recibirá al Objeto Pokemon creado</param>
+        /// <param name="entrenador">Objeto NombreEntrenador que recibirá al Objeto Pokemon creado</param>
         public static void Explorar(Entrenador entrenador)
         {
             Titulo();
@@ -73,14 +405,14 @@ namespace Biblioteca
             PuntosSuspensivos();
             Console.WriteLine("\nUn Pokemon Salvaje ha aparecido");
             entrenador.Explorar(new Squirtle());
-            Console.WriteLine($"La Pokedex te dice que es un {entrenador.PokemonSalvaje.Nombre}");
+            Console.WriteLine($"La Pokedex te dice que es un {entrenador.PokemonSalvaje.NombrePokemon}");
             Console.WriteLine("Vamos a enfrentarnos a el");
         }
 
         /// <summary>
-        ///     Crea la vista para el enfrentamiento entre los PokemonActivo y PokemonSalvaje que se encuentran almacenados en el Objeto Entrenador
+        ///     Crea la vista para el enfrentamiento entre los PokemonActivo y PokemonSalvaje que se encuentran almacenados en el Objeto NombreEntrenador
         /// </summary>
-        /// <param name="entrenador">Objeto Entrenador del que se toman los datos PokemonActivo y PokemonSalvaje</param>
+        /// <param name="entrenador">Objeto NombreEntrenador del que se toman los datos PokemonActivo y PokemonSalvaje</param>
         /// <returns></returns>
         public static string Enfrentamiento(Entrenador entrenador)
         {
@@ -92,7 +424,7 @@ namespace Biblioteca
                 Console.WriteLine("Selecciona el tipo de ataque quieres utilizar:");                
                 GenerarMenu(TiposAtaques);
                 int seleccion = Validaciones.ValidarNumero();
-                int tipoAtaque = Validaciones.ValidarOpcionMenu(PokemonsIniciales, seleccion);
+                int tipoAtaque = Validaciones.ValidarOpcionMenu(TiposAtaques, seleccion);
 
                 switch (tipoAtaque)
                 {
@@ -150,9 +482,9 @@ namespace Biblioteca
         }
 
         /// <summary>
-        ///     Crea la vista para la Evolución del PokemonActivo del Objeto Entrenador
+        ///     Crea la vista para la Evolución del PokemonActivo del Objeto NombreEntrenador
         /// </summary>
-        /// <param name="entrenador">Objeto Entrenador del que se toma el dato PokemonActivo</param>
+        /// <param name="entrenador">Objeto NombreEntrenador del que se toma el dato PokemonActivo</param>
         public static void Evolucion(Entrenador entrenador)
         {
             string actual = entrenador.PokemonActivo.Familia;
@@ -163,10 +495,10 @@ namespace Biblioteca
         }
 
         /// <summary>
-        ///     Crea la vista de la finalización del juego. Muestra una vista distinta dependiendo del resultado del enfrentamientos. Limpia la variable que almacena al Objeto Entrenador para preparar el reinicio del juego. Retorna un bool para manejar el reinicio o cierre del juego
+        ///     Crea la vista de la finalización del juego. Muestra una vista distinta dependiendo del resultado del enfrentamientos. Limpia la variable que almacena al Objeto NombreEntrenador para preparar el reinicio del juego. Retorna un bool para manejar el reinicio o cierre del juego
         /// </summary>
         /// <param name="resultado">string con el resultado del enfrentamiento</param>
-        /// <param name="entrenador">Objeto Entrenador a ser limpiuado</param>
+        /// <param name="entrenador">Objeto NombreEntrenador a ser limpiuado</param>
         /// <returns>bool reiniciar</returns>
         public static bool FinDelJuego(string resultado, Entrenador entrenador)
         {
@@ -225,7 +557,7 @@ namespace Biblioteca
         }
 
         /// <summary>
-        ///     Genera una lista de los Pokemon almacenados en el atributo Pokedex del Objeto Entrenador recibido por parámetro
+        ///     Genera una lista de los Pokemon almacenados en el atributo Pokedex del Objeto NombreEntrenador recibido por parámetro
         /// </summary>
         /// <param name="entrenador"></param>
         public static  void GetPokemons(Entrenador entrenador)
@@ -233,7 +565,7 @@ namespace Biblioteca
             var pokemons = entrenador.Pokedex.GetPokemons();
             foreach (var pokemon in pokemons)
             {
-                Console.WriteLine(pokemon.Nombre);
+                Console.WriteLine(pokemon.NombrePokemon);
             }
         }
 
