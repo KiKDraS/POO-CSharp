@@ -1,7 +1,6 @@
 ﻿using Biblioteca;
 using Biblioteca.Pokemons;
-using System.Data;
-using System.Data.SqlClient;
+using BLL; /*sólo para pruebas*/
 
 namespace Programa
 {
@@ -42,15 +41,6 @@ namespace Programa
                 }
 
             } while (reiniciar);
-
-
-            //Entrenador entrenador = new("Ash");
-            //entrenador.Pokedex = new Pokedex();
-            //entrenador.PokemonActivo = new Pikachu();
-            //entrenador.AgregarPokemonPokedex(entrenador.PokemonActivo);
-            //entrenador.PokemonActivo.Exp = 60;
-            //entrenador.Evolucion();
-
 
             ////Excepciones
             ////ash.PokemonActivo.Familia = "";

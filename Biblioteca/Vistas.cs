@@ -26,7 +26,7 @@ namespace Biblioteca
         }
 
         /// <summary>
-        ///     Arma la vista para la creación del Objeto Entrenador tomando en cuenta la existencia o no de una partida iniciada
+        ///     Arma la vista para la creación del Objeto Entrenador tomando en cuenta la existencia o no de una partida iniciada y cargadno los datos almacenados en la Base de Datos cuando corresponda
         /// </summary>
         /// <returns>Objeto Entrenador</returns>
         public static Entrenador InicioJuego()
