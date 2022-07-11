@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Biblioteca.Pokemons;
+﻿using Biblioteca.Pokemons;
 using Biblioteca.Exceptions;
 
 namespace Biblioteca
@@ -46,7 +41,7 @@ namespace Biblioteca
         public int Vida { get; set; }
         public int Exp { get; set; }
         public string Familia { get; set; }
-        public bool Is_Avible { get; set; }
+        public bool Is_Aviable { get; set; }
         public bool Is_Active { get; set; }
         protected Tipo TipoPokemon { get; set; }
         protected int Evoluciones { get; set; }
@@ -62,7 +57,6 @@ namespace Biblioteca
             Exp += exp;
         }
 
-        //
         /// <summary>
         ///     Crea una nueva instancia del objeto sellado correspondiente al árbol Evolucion/Evolucion2 según la propiedad Familia del objeto Pokemon que ejecuta el Método. Lanza la FamiliaNoEncontradaException en caso de error ejecución.
         /// </summary>
@@ -72,7 +66,7 @@ namespace Biblioteca
         {
             Evolucion pokemon = new(Exp);
 
-            if (Exp >= 50 && Exp < 100)
+            if (Exp >= 50 && Exp > 100)
             {
                 switch (Familia)
                 {

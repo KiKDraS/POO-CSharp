@@ -1,7 +1,5 @@
 ﻿using Entities;
 using DAL;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace BLL
 {
@@ -13,11 +11,11 @@ namespace BLL
             var lista = dalentrenador.ObtenerTodos();
             return lista;
         }
-        public static void ObtenerEntrenador(int idEntrenador)
+        public static int ObtenerEntrenador(string nombreEntrenador)
         {
             var dalentrenador = new DALEntrenador();
-            var entrenador = dalentrenador.ObternerEntrenador(idEntrenador);
-            Console.WriteLine(entrenador.Nombre);
+            var entrenador = dalentrenador.ObternerEntrenador(nombreEntrenador);
+            return entrenador.Id;
         }
         public static void Agregar(Entrenador entrenador)
         {

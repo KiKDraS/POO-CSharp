@@ -34,7 +34,7 @@ namespace DAL
             cnx.Close();
             return entrenadores;
         }
-        public Entrenador ObternerEntrenador(int idEntrenador)
+        public Entrenador ObternerEntrenador(string nombreEntrenador)
         {
             Entrenador entrenador = null;
             var cnx = new SqlConnection
@@ -42,15 +42,14 @@ namespace DAL
                 ConnectionString = "Server=DESKTOP-O531LQK;database=pokemon;user=ana;password=Password_123;"
             };
             cnx.Open();
-            var consulta = $"SELECT [entrenador_id], [entrenador_nombre] FROM dbo.entrenadores WHERE [entrenador_id]={idEntrenador}";
+            var consulta = $"SELECT [entrenador_id] FROM dbo.entrenadores WHERE [entrenador_nombre] = '{nombreEntrenador}'";
             var comando = new SqlCommand(consulta, cnx);
             SqlDataReader dr = comando.ExecuteReader();
             while (dr.Read())
             {
                 entrenador = new()
                 {
-                    Id = dr.GetInt32(0),
-                    Nombre = dr.GetString(1)
+                    Id = dr.GetInt32(0)
                 };
             }
             cnx.Close();

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Biblioteca
+﻿namespace Biblioteca
 {
     public static class Validaciones
     {
@@ -16,7 +10,7 @@ namespace Biblioteca
         /// <returns>int seleccion con una seleción válida para la Lista analizada</returns>
         public static int ValidarOpcionMenu<T>(List<T> lista, int seleccion)
         {
-            while (lista.Count < seleccion && seleccion < 1)
+            while (lista.Count < seleccion || seleccion < 1)
             {
                 Console.WriteLine("Opción inválida");
                 seleccion = ValidarNumero();
@@ -43,8 +37,8 @@ namespace Biblioteca
             while (isUnique)
             {
                 Console.WriteLine("El nombre ya existe. Prueba otro");
-                string nuevo = Console.ReadLine();
-                isUnique = ValidarNombreUnico(nuevo, existentes);
+                nombre = Console.ReadLine();
+                isUnique = ValidarNombreUnico(nombre, existentes);
             }
             return nombre.Trim();
         }

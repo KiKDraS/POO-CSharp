@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Biblioteca.Pokemons;
-using Biblioteca.Exceptions;
+﻿using Biblioteca.Exceptions;
 
 namespace Biblioteca
 {
@@ -29,14 +26,82 @@ namespace Biblioteca
         private Random rand = new();
 
         /// <summary>
-        ///     Método para limpiar el dato PokemonActivo/PokemonSalvaje
+        ///     Método para limpiar el dato PokemonActivo/PokemonSalvaje. Si se limpia PokemonSalvaje, además lo agrega a Pokedex en caso de que no exista otro Pokemon de la misma Familia
         /// </summary>
         public void BorrarPokemon(Pokemon pokemon)
         {
+
             if (PokemonActivo.Familia == pokemon.Familia && PokemonActivo.NombrePokemon == pokemon.NombrePokemon)
+            {
+                PokemonActivo.Is_Active = false;
                 PokemonActivo = null;
+            }
             else
-                PokemonSalvaje = null;
+            {
+                bool existe = false;
+                foreach (var poke in Pokedex.GetPokemons())
+                {
+                    if (PokemonSalvaje.Familia == poke.Familia)
+                        existe = true;
+                }
+
+                if (existe)
+                    PokemonSalvaje = null;
+                else
+                {
+                    switch (PokemonSalvaje.Familia)
+                    {
+                        case "Pikachu":
+                            PokemonSalvaje.EntrenadorId = Id;
+                            PokemonSalvaje.PokemonBaseId = 1;
+                            break;
+                        case "Raichu":
+                            PokemonSalvaje.EntrenadorId = Id;
+                            PokemonSalvaje.PokemonBaseId = 2;
+                            break;
+                        case "Bulbasaur":
+                            PokemonSalvaje.EntrenadorId = Id;
+                            PokemonSalvaje.PokemonBaseId = 3;
+                            break;
+                        case "Ivysaur":
+                            PokemonSalvaje.EntrenadorId = Id;
+                            PokemonSalvaje.PokemonBaseId = 4;
+                            break;
+                        case "Venasaur":
+                            PokemonSalvaje.EntrenadorId = Id;
+                            PokemonSalvaje.PokemonBaseId = 5;
+                            break;
+                        case "Squirtle":
+                            PokemonSalvaje.EntrenadorId = Id;
+                            PokemonSalvaje.PokemonBaseId = 6;
+                            break;
+                        case "Wratortle":
+                            PokemonSalvaje.EntrenadorId = Id;
+                            PokemonSalvaje.PokemonBaseId = 7;
+                            break;
+                        case "Blastoise":
+                            PokemonSalvaje.EntrenadorId = Id;
+                            PokemonSalvaje.PokemonBaseId = 8;
+                            break;
+                        case "Charmander":
+                            PokemonSalvaje.EntrenadorId = Id;
+                            PokemonSalvaje.PokemonBaseId = 9;
+                            break;
+                        case "Charmeleon":
+                            PokemonSalvaje.EntrenadorId = Id;
+                            PokemonSalvaje.PokemonBaseId = 10;
+                            break;
+                        case "Charizard":
+                            PokemonSalvaje.EntrenadorId = Id;
+                            PokemonSalvaje.PokemonBaseId = 11;
+                            break;
+                    }
+                    AgregarPokemonPokedex(PokemonSalvaje);
+                    PokemonSalvaje = null;
+                }
+                
+                
+            }
         }
 
         /// <summary>
@@ -82,6 +147,14 @@ namespace Biblioteca
         public void SeleccionarPokemonActivo(int i)
         {
             PokemonActivo = Pokedex.GetPokemon(i);
+            PokemonActivo.Is_Active = true;
+            foreach (var poke in Pokedex.GetPokemons())
+            {
+                if(poke.NombrePokemon != PokemonActivo.NombrePokemon)
+                {
+                    PokemonActivo.Is_Active = false;
+                }
+            }
         }
 
         /// <summary>
@@ -107,15 +180,16 @@ namespace Biblioteca
             {
                 PokemonSalvaje.AtaqueBasico(PokemonActivo); 
                 if(PokemonActivo.Vida <= 0)
+                {
+                    PokemonActivo.Vida = 0;
                     BorrarPokemon(PokemonActivo);
+                }
             }
             else
             {
                 PokemonActivo.AtaqueBasico(PokemonSalvaje);
                 if (PokemonSalvaje.Vida <= 0)
                     BorrarPokemon(PokemonSalvaje);
-                if (PokemonActivo.Exp >= 50 && PokemonActivo.EtapaActual == 1 || PokemonActivo.Exp >= 100 && PokemonActivo.EtapaActual == 2)
-                    Evolucion();
             }
         }
 
@@ -133,15 +207,16 @@ namespace Biblioteca
             {
                 PokemonSalvaje.AtaqueTipo(PokemonActivo);
                 if (PokemonActivo.Vida <= 0)
+                {
+                    PokemonActivo.Vida = 0;
                     BorrarPokemon(PokemonActivo);
+                }
             }
             else
             {
                 PokemonActivo.AtaqueTipo(PokemonSalvaje);
                 if (PokemonSalvaje.Vida <= 0)
                     BorrarPokemon(PokemonSalvaje);
-                if (PokemonActivo.Exp >= 50 && PokemonActivo.EtapaActual == 1 || PokemonActivo.Exp >= 100 && PokemonActivo.EtapaActual == 2)
-                    Evolucion();
             }
         }
 
@@ -152,9 +227,51 @@ namespace Biblioteca
         {
             try
             {
+                PokemonActivo.Is_Aviable = false;
                 Pokemon evolucion = PokemonActivo.Evolucionar();
-                Pokedex.ActualizarPokedexEvolucion(evolucion, PokemonActivo);
+                Pokedex.ActualizarPokedexEvolucion(PokemonActivo, evolucion);
                 PokemonActivo = evolucion;
+                PokemonActivo.EntrenadorId = Id;
+                switch (PokemonActivo.Familia)
+                {
+                    case "Raichu":
+                        PokemonActivo.Is_Aviable = true;
+                        PokemonActivo.Is_Active = true;
+                        PokemonActivo.PokemonBaseId = 2;
+                        break;
+                    case "Ivysaur":
+                        PokemonActivo.Is_Aviable = true;
+                        PokemonActivo.Is_Active = true;
+                        PokemonActivo.PokemonBaseId = 4;
+                        break;
+                    case "Venasaur":
+                        PokemonActivo.Is_Aviable = true;
+                        PokemonActivo.Is_Active = true;
+                        PokemonActivo.PokemonBaseId = 5;
+                        break;
+                    case "Wartortle":
+                        PokemonActivo.Is_Aviable = true;
+                        PokemonActivo.Is_Active = true;
+                        PokemonActivo.PokemonBaseId = 7;
+                        break;
+                    case "Blastoise":
+                        PokemonActivo.Is_Aviable = true;
+                        PokemonActivo.Is_Active = true;
+                        PokemonActivo.PokemonBaseId = 8;
+                        break;
+                    case "Charmeleon":
+                        PokemonActivo.Is_Aviable = true;
+                        PokemonActivo.Is_Active = true;
+                        PokemonActivo.PokemonBaseId = 10;
+                        break;
+                    case "Charizard":
+                        PokemonActivo.Is_Aviable = true;
+                        PokemonActivo.Is_Active = true;
+                        PokemonActivo.PokemonBaseId = 11;
+                        break;
+                }
+                if (string.IsNullOrEmpty(PokemonActivo.NombrePokemon))
+                    PokemonActivo.NombrePokemon = PokemonActivo.Familia;
             }
             catch (NullReferenceException ex)
             {

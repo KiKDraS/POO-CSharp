@@ -43,6 +43,15 @@ namespace Programa
 
             } while (reiniciar);
 
+
+            //Entrenador entrenador = new("Ash");
+            //entrenador.Pokedex = new Pokedex();
+            //entrenador.PokemonActivo = new Pikachu();
+            //entrenador.AgregarPokemonPokedex(entrenador.PokemonActivo);
+            //entrenador.PokemonActivo.Exp = 60;
+            //entrenador.Evolucion();
+
+
             ////Excepciones
             ////ash.PokemonActivo.Familia = "";
             ////ash.Evolucion();

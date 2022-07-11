@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Biblioteca.Pokemons;
-using Biblioteca.Exceptions;
+﻿using Biblioteca.Exceptions;
 
 namespace Biblioteca
 {
@@ -56,7 +50,12 @@ namespace Biblioteca
                 throw new NullReferenceException("No pudimos actualizar la Pokedex. Tenemos problemas para encontrar la información del Pokemon");
             var evol = Pokemons.Find(poke => poke.Familia == evolucionando.Familia && poke.NombrePokemon == evolucionando.NombrePokemon);
             if (evol != null)
+            {
                 Pokemons.Remove(evol);
+                evol.Is_Active = false;
+                evol.Is_Aviable = false;
+                Pokemons.Add(evol);
+            }
 
             Pokemons.Add(evolucion);
         }

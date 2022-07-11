@@ -1,7 +1,5 @@
 ﻿using Entities;
 using DAL;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace BLL
 {
@@ -13,7 +11,6 @@ namespace BLL
             var lista = dalpoke.ObtenerPokemonsIniciales();
             return lista;
         }
-
         public static Pokemon ObtenerUnPokemon(List<Pokemon> listaInicial, string pokemonSeleccionado)
         {
             Pokemon pokemon = null;

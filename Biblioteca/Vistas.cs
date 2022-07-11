@@ -1,23 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Biblioteca.Pokemons;
+﻿using Biblioteca.Pokemons;
 using BLL;
 
 namespace Biblioteca
 {
     public static class Vistas
     {
-        //private static readonly List<string> PokemonsIniciales = new()
-        //{
-        //    "Pikachu",
-        //    "Bulbasaur",
-        //    "Squirtle",
-        //    "Charmander"
-        //};
-
         private static readonly List<string> TiposAtaques = new()
         {
             "Ataque Básico",
@@ -58,14 +45,10 @@ namespace Biblioteca
                 Console.Clear();
                 //Obtener Entrenadores en BD y armar Lista menú
                 var entrenadores = BLLEntrenador.ObtenerTodos();
-                List<string> menuEntreadores = new();
-                foreach (var entre in entrenadores)
-                {
-                    menuEntreadores.Add(entre.Nombre);
-                }
+                List<string> menuEntrenadores = ArmarMenuEntrenadores(entrenadores);
                 //Crear Objeto Entrenador
-                string nombreEntrendaor = NombreEntrenador(menuEntreadores);
-                entrenador = new(nombreEntrendaor);
+                string nombreEntrenador = NombreEntrenador(menuEntrenadores);
+                entrenador = new(nombreEntrenador);
                 Console.Clear();
                 //Obtener Pokemones Iniciales de BD
                 var pokemonesIniciales = BLLPokemones.ObtenerPokemonsIniciales();
@@ -87,7 +70,7 @@ namespace Biblioteca
                             Vida = plantillaPikachu.Vida,
                             Golpe = plantillaPikachu.Golpe,
                             Familia = plantillaPikachu.Familia,
-                            Is_Avible = true,
+                            Is_Aviable = true,
                             Is_Active = true
                         };
                         entrenador.AgregarPokemonPokedex(pikachu);
@@ -101,7 +84,7 @@ namespace Biblioteca
                             Vida = plantillaSquirtle.Vida,
                             Golpe = plantillaSquirtle.Golpe,
                             Familia = plantillaSquirtle.Familia,
-                            Is_Avible = true,
+                            Is_Aviable = true,
                             Is_Active = true
                         };
                         entrenador.AgregarPokemonPokedex(squirtle);
@@ -115,7 +98,7 @@ namespace Biblioteca
                             Vida = plantillaBulbasaur.Vida,
                             Golpe = plantillaBulbasaur.Golpe,
                             Familia = plantillaBulbasaur.Familia,
-                            Is_Avible = true,
+                            Is_Aviable = true,
                             Is_Active = true
                         };
                         entrenador.AgregarPokemonPokedex(bulbasaur);
@@ -129,7 +112,7 @@ namespace Biblioteca
                             Vida = plantilaCharmander.Vida,
                             Golpe = plantilaCharmander.Golpe,
                             Familia = plantilaCharmander.Familia,
-                            Is_Avible = true,
+                            Is_Aviable = true,
                             Is_Active = true
                         };
                         entrenador.AgregarPokemonPokedex(charmander);
@@ -138,6 +121,10 @@ namespace Biblioteca
                 } 
                 //Poner como Pokemon Activo
                 entrenador.SeleccionarPokemonActivo(0);
+                //Guardar Nueva Partida
+                Console.WriteLine("Vamos a guardar tu nueva partida");
+                PuntosSuspensivos();
+                GuardarPartida(entrenadores, entrenador);
                 Console.Clear();
             }
             else
@@ -145,20 +132,16 @@ namespace Biblioteca
                 Console.Clear();
                 //Obtener Entrenadores en BD y armar Lista menú
                 var entrenadores = BLLEntrenador.ObtenerTodos();
-                List<string> menuEntreadores = new();
-                foreach (var entre in entrenadores)
-                {
-                    menuEntreadores.Add(entre.Nombre);
-                }
+                List<string> menuEntrenadores = ArmarMenuEntrenadores(entrenadores);
                 Titulo();
                 //Crear Objeto Entrenador
                 Console.WriteLine("Selecciona tu partida");
-                GenerarMenu(menuEntreadores);
+                GenerarMenu(menuEntrenadores);
                 int seleccionEntrenador = Validaciones.ValidarNumero();
                 seleccionEntrenador = Validaciones.ValidarOpcionMenu(menuInicio, seleccionEntrenador);
                 foreach (var item in entrenadores)
                 {
-                    if (item.Nombre == menuEntreadores[seleccionEntrenador - 1])
+                    if (item.Nombre == menuEntrenadores[seleccionEntrenador - 1])
                     {
                         entrenador = new(item.Id, item.Nombre);
                         break;
@@ -184,7 +167,7 @@ namespace Biblioteca
                                 Exp = pokemon.Exp,
                                 Golpe = pokemon.Golpe,
                                 Familia = pokemon.Familia,
-                                Is_Avible = pokemon.Is_Aviable,
+                                Is_Aviable = pokemon.Is_Aviable,
                                 Is_Active = pokemon.Is_Active
                             };
                             pokedex.InsertPokemon(pikachu);
@@ -201,7 +184,7 @@ namespace Biblioteca
                                 Exp = pokemon.Exp,
                                 Golpe = pokemon.Golpe,
                                 Familia = pokemon.Familia,
-                                Is_Avible = pokemon.Is_Aviable,
+                                Is_Aviable = pokemon.Is_Aviable,
                                 Is_Active = pokemon.Is_Active
                             };
                             pokedex.InsertPokemon(raichu);
@@ -218,7 +201,7 @@ namespace Biblioteca
                                 Exp = pokemon.Exp,
                                 Golpe = pokemon.Golpe,
                                 Familia = pokemon.Familia,
-                                Is_Avible = pokemon.Is_Aviable,
+                                Is_Aviable = pokemon.Is_Aviable,
                                 Is_Active = pokemon.Is_Active
                             };
                             pokedex.InsertPokemon(bulbasaur);
@@ -235,7 +218,7 @@ namespace Biblioteca
                                 Exp = pokemon.Exp,
                                 Golpe = pokemon.Golpe,
                                 Familia = pokemon.Familia,
-                                Is_Avible = pokemon.Is_Aviable,
+                                Is_Aviable = pokemon.Is_Aviable,
                                 Is_Active = pokemon.Is_Active
                             };
                             pokedex.InsertPokemon(ivysaur);
@@ -252,7 +235,7 @@ namespace Biblioteca
                                 Exp = pokemon.Exp,
                                 Golpe = pokemon.Golpe,
                                 Familia = pokemon.Familia,
-                                Is_Avible = pokemon.Is_Aviable,
+                                Is_Aviable = pokemon.Is_Aviable,
                                 Is_Active = pokemon.Is_Active
                             };
                             pokedex.InsertPokemon(venasaur);
@@ -269,7 +252,7 @@ namespace Biblioteca
                                 Exp = pokemon.Exp,
                                 Golpe = pokemon.Golpe,
                                 Familia = pokemon.Familia,
-                                Is_Avible = pokemon.Is_Aviable,
+                                Is_Aviable = pokemon.Is_Aviable,
                                 Is_Active = pokemon.Is_Active
                             };
                             pokedex.InsertPokemon(squirtle);
@@ -286,7 +269,7 @@ namespace Biblioteca
                                 Exp = pokemon.Exp,
                                 Golpe = pokemon.Golpe,
                                 Familia = pokemon.Familia,
-                                Is_Avible = pokemon.Is_Aviable,
+                                Is_Aviable = pokemon.Is_Aviable,
                                 Is_Active = pokemon.Is_Active
                             };
                             pokedex.InsertPokemon(wartortle);
@@ -303,7 +286,7 @@ namespace Biblioteca
                                 Exp = pokemon.Exp,
                                 Golpe = pokemon.Golpe,
                                 Familia = pokemon.Familia,
-                                Is_Avible = pokemon.Is_Aviable,
+                                Is_Aviable = pokemon.Is_Aviable,
                                 Is_Active = pokemon.Is_Active
                             };
                             pokedex.InsertPokemon(blastoise);
@@ -320,7 +303,7 @@ namespace Biblioteca
                                 Exp = pokemon.Exp,
                                 Golpe = pokemon.Golpe,
                                 Familia = pokemon.Familia,
-                                Is_Avible = pokemon.Is_Aviable,
+                                Is_Aviable = pokemon.Is_Aviable,
                                 Is_Active = pokemon.Is_Active
                             };
                             pokedex.InsertPokemon(charmander);
@@ -337,7 +320,7 @@ namespace Biblioteca
                                 Exp = pokemon.Exp,
                                 Golpe = pokemon.Golpe,
                                 Familia = pokemon.Familia,
-                                Is_Avible = pokemon.Is_Aviable,
+                                Is_Aviable = pokemon.Is_Aviable,
                                 Is_Active = pokemon.Is_Active
                             };
                             pokedex.InsertPokemon(charmeleon);
@@ -354,16 +337,29 @@ namespace Biblioteca
                                 Exp = pokemon.Exp,
                                 Golpe = pokemon.Golpe,
                                 Familia = pokemon.Familia,
-                                Is_Avible = pokemon.Is_Aviable,
+                                Is_Aviable = pokemon.Is_Aviable,
                                 Is_Active = pokemon.Is_Active
                             };
                             pokedex.InsertPokemon(charizard);
                             break;
                     }
                 }
-
                 //Agregar a Entrenador
                 entrenador.Pokedex = pokedex;
+                Console.Clear();
+                //Restaurar Pokemons
+                entrenador = RestaurarPokemons(entrenador);
+                Console.Clear();
+                //Seleccionar Pokemon Activo
+                string pokemonSeleccionado = SeleccionarPokemonActivo(entrenador);
+                int index = 0;
+                foreach (var pokemon in entrenador.Pokedex.GetPokemons())
+                {
+                    if (pokemon.NombrePokemon == pokemonSeleccionado)
+                        break;
+                    index++;
+                }
+                entrenador.SeleccionarPokemonActivo(index);
             }
 
                 return entrenador;
@@ -391,6 +387,7 @@ namespace Biblioteca
             GenerarMenu(menu);
             int seleccion = Validaciones.ValidarNumero();
             int pokemonInicial = Validaciones.ValidarOpcionMenu(menu, seleccion);
+
             return menu[pokemonInicial-1];
         }
 
@@ -403,8 +400,45 @@ namespace Biblioteca
             Titulo();
             Console.WriteLine("Con tu nuevo Pokemon te adentras en el bosque en busca de Pokemons Salvajes para ampliar tus conocimientos");
             PuntosSuspensivos();
-            Console.WriteLine("\nUn Pokemon Salvaje ha aparecido");
-            entrenador.Explorar(new Squirtle());
+            Console.WriteLine("Un Pokemon Salvaje ha aparecido");
+            Random rand = new();
+            int i = rand.Next(1, 11);
+            switch (i)
+            {
+                case 1:
+                    entrenador.Explorar(new Pikachu());
+                    break;
+                case 2:
+                    entrenador.Explorar(new Raichu());
+                    break;
+                case 3:
+                    entrenador.Explorar(new Bulbasaur());
+                    break;
+                case 4:
+                    entrenador.Explorar(new Ivysaur());
+                    break;
+                case 5:
+                    entrenador.Explorar(new Venasaur());
+                    break;
+                case 6:
+                    entrenador.Explorar(new Squirtle());
+                    break;
+                case 7:
+                    entrenador.Explorar(new Wartortle());
+                    break;
+                case 8:
+                    entrenador.Explorar(new Blastoise());
+                    break;
+                case 9:
+                    entrenador.Explorar(new Charmander());
+                    break;
+                case 10:
+                    entrenador.Explorar(new Charmeleon());
+                    break;
+                case 11:
+                    entrenador.Explorar(new Charizard());
+                    break;
+            }
             Console.WriteLine($"La Pokedex te dice que es un {entrenador.PokemonSalvaje.NombrePokemon}");
             Console.WriteLine("Vamos a enfrentarnos a el");
         }
@@ -478,7 +512,7 @@ namespace Biblioteca
             Console.WriteLine("Se le aplicará una posición para sanar sus heridas");
             entrenador.DarPocion();
             Console.WriteLine("Recibe 50 puntos de experiencia");
-            Vistas.Evolucion(entrenador);
+            Evolucion(entrenador);
         }
 
         /// <summary>
@@ -508,12 +542,19 @@ namespace Biblioteca
             {
                 Titulo();
                 Console.WriteLine("Han derrotado a tu Pokemon y tu aventura llega a su fin");
+                Console.WriteLine("Vamos a Guardar tu Progreso");
+                var entrenadores = BLLEntrenador.ObtenerTodos();
+                GuardarPartida(entrenadores, entrenador);
+                PuntosSuspensivos();
                 reiniciar = Validaciones.ValidarTecla("Presione ENTER para reiniciar o ESC para salir");
             }
             else
             {
                 Titulo();
                 Console.WriteLine("El juego a llegado a su fin");
+                var entrenadores = BLLEntrenador.ObtenerTodos();
+                GuardarPartida(entrenadores, entrenador);
+                PuntosSuspensivos();
                 reiniciar = Validaciones.ValidarTecla("Presione ENTER para reiniciar o ESC para salir");
             }  
 
@@ -554,20 +595,214 @@ namespace Biblioteca
                 Thread.Sleep(mydelay);
                 Console.Write(".");
             }
+            Console.WriteLine("");
         }
 
         /// <summary>
-        ///     Genera una lista de los Pokemon almacenados en el atributo Pokedex del Objeto NombreEntrenador recibido por parámetro
+        ///     Genera una lista de los Pokemon almacenados en el atributo Pokedex del Objeto Entrenador recibido por parámetro.
         /// </summary>
         /// <param name="entrenador"></param>
-        public static  void GetPokemons(Entrenador entrenador)
+        private static List<string> ListaPokemons(Entrenador entrenador, bool isActive)
         {
             var pokemons = entrenador.Pokedex.GetPokemons();
-            foreach (var pokemon in pokemons)
+            var lista = new List<string>();
+            if (isActive)
             {
-                Console.WriteLine(pokemon.NombrePokemon);
+                foreach (var pokemon in pokemons)
+                {
+                    if (pokemon.Is_Aviable == true && pokemon.Vida > 0)                
+                        lista.Add(pokemon.NombrePokemon);               
+                }
             }
+            else
+            {
+                foreach (var pokemon in pokemons)
+                {
+                    if (pokemon.Is_Aviable == true && pokemon.Vida <= 0)
+                        lista.Add(pokemon.NombrePokemon);
+                }
+            }
+            
+            return lista;
         }
+        
+        /// <summary>
+        ///     Genera una lista de string en base a los entrenadores almacenados en la Base de Datos
+        /// </summary>
+        /// <param name="entrenadores"></param>
+        /// <returns>Lista de strings con los nombres de todos los entrenadores</returns>
+        private static List<string> ArmarMenuEntrenadores(List<Entities.Entrenador> entrenadores)
+        {
+            List<string> menuEntreadores = new();
+            foreach (var entre in entrenadores)
+            {
+                menuEntreadores.Add(entre.Nombre);
+            }
+            return menuEntreadores;
+        }
+        
+        /// <summary>
+        ///     Genera la vista de selección del Pokemon Activo
+        /// </summary>
+        /// <param name="entrenador"></param>
+        /// <returns>int que representa el índice del pokemon seleccionado</returns>
+        private static string SeleccionarPokemonActivo(Entrenador entrenador)
+        {
+            Titulo();
+            Console.WriteLine("Selecciona el Pokemon Activo");
+            List<string> menuPokemons = ListaPokemons(entrenador, true);
+            for (int i = 0; i < menuPokemons.Count(); i++)
+            {
+                Console.WriteLine($"{i+1}. {menuPokemons[i]}");
+            }               
+            int seleccion = Validaciones.ValidarNumero();
+            seleccion = Validaciones.ValidarOpcionMenu(menuPokemons, seleccion);
+            return menuPokemons[seleccion-1];
+        }
+        
+        /// <summary>
+        ///     Genera la vista para la restauración de la vida de los Pokemones que están disponibles para ser elegidos. Modifica los stats en la Pokedex del Objeto Entrenador recibido por parámetro. 
+        /// </summary>
+        /// <param name="entrenador"></param>
+        /// <returns>El Objeto Entrenador modificado</returns>
+        private static Entrenador RestaurarPokemons(Entrenador entrenador)
+        {
+            Titulo();
+            Console.WriteLine("Vamos a comprobar el estado de tus Pokemon");
+            List<string> menuPokemons = ListaPokemons(entrenador, false);
+            if(menuPokemons.Count > 0)
+            {
+                PuntosSuspensivos();
+                Console.WriteLine("Estos Pokemon necesitan ser atendidos antes de comenzar");
+                Console.WriteLine("");
+                foreach (var poke in menuPokemons)
+                {
+                    Console.WriteLine($"{poke}");
+                }
+                Console.WriteLine("");
+                Console.ReadLine();
+                Console.Clear();
+                Titulo();
+                Console.WriteLine("Nos encargaremos de dejarlos como nuevos");
+                foreach (var pokemon in entrenador.Pokedex.GetPokemons())
+                {
+                    if (pokemon.Vida <= 0)
+                    {
+                        switch (pokemon.EtapaActual)
+                        {
+                            case 1:
+                                pokemon.Is_Aviable = true;
+                                pokemon.Vida = 50;
+                                break;
+                            case 2:
+                                pokemon.Is_Aviable = true;
+                                pokemon.Vida = 100;
+                                break;
+                            case 3:
+                                pokemon.Is_Aviable = true;
+                                pokemon.Vida = 150;
+                                break;
+                        }
+                    }
+                }
+                PuntosSuspensivos();
+                Console.WriteLine("Perfecto! Ya estan listos para continuar");
+            }
+            else
+            {
+                PuntosSuspensivos();
+                Console.WriteLine("Genial! Ninguno de tus Pokemon necesita ser atendido");
+            }            
+            Console.ReadKey();
 
+            return entrenador;
+        }
+        
+        /// <summary>
+        ///     Genera la vista de guarado de partida a partir del Objeto Entrenador. Si el nombre del Objeto Entrenador no coincide con los nombres dentro de la Lista envía los datos del Objeto Entrenador a la Base de Datos; si existe, actualiza los datos en la BD
+        /// </summary>
+        /// <param name="entrenadoresEntitie"></param>
+        /// <param name="entrenador"></param>
+        private static void GuardarPartida(List<Entities.Entrenador> entrenadoresEntitie, Entrenador entrenador)
+        {
+            bool nuevo = true;
+            List<string> entrenadores = ArmarMenuEntrenadores(entrenadoresEntitie);
+            foreach (var entre in entrenadores)
+            {
+                if(entre == entrenador.Nombre)
+                {
+                    nuevo = false;
+                    break;
+                }
+            }
+            List<Biblioteca.Pokemon> pokemonsObjetoEntrenador = entrenador.Pokedex.GetPokemons();
+            if (nuevo)
+            {
+                Entities.Entrenador nuevoEntrenador = new()
+                {
+                    Nombre = entrenador.Nombre
+                };
+                BLLEntrenador.Agregar(nuevoEntrenador);
+                //Agregar del entrenador en Objeto Entrenador
+                var listaEntrenadores = BLLEntrenador.ObtenerTodos();
+                foreach (var item in listaEntrenadores)
+                {
+                    if (item.Nombre == nuevoEntrenador.Nombre)
+                    {
+                        int idEntrenador = BLLEntrenador.ObtenerEntrenador(nuevoEntrenador.Nombre);
+
+                        foreach (var poke in pokemonsObjetoEntrenador)
+                        {
+                            Entities.Pokemon pokemonEntitie = new()
+                            {
+                                Id = poke.Id,
+                                NombreEntrenador = nuevoEntrenador.Nombre,
+                                EntrenadorId = idEntrenador,
+                                PokemonBaseId = poke.PokemonBaseId,
+                                NombrePokemon = poke.NombrePokemon,
+                                Vida = poke.Vida,
+                                Exp = poke.Exp,
+                                Golpe = poke.Golpe,
+                                Familia = poke.Familia,
+                                Is_Aviable = poke.Is_Aviable,
+                                Is_Active = poke.Is_Active
+                            };
+                            BLLPokemones.AgregarAPokedex(pokemonEntitie);
+                        }
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                List<Entities.Pokemon> nuevosDatos = new();
+                foreach (var poke in pokemonsObjetoEntrenador)
+                {
+                    Entities.Pokemon pokemonEntitie = new()
+                    {
+                        Id = poke.Id,
+                        NombreEntrenador = poke.NombreEntrenador,
+                        EntrenadorId = poke.EntrenadorId,
+                        PokemonBaseId = poke.PokemonBaseId,
+                        NombrePokemon = poke.NombrePokemon,
+                        Vida = poke.Vida,
+                        Exp = poke.Exp,
+                        Golpe = poke.Golpe,
+                        Familia = poke.Familia,
+                        Is_Aviable = poke.Is_Aviable,
+                        Is_Active = poke.Is_Active
+                    };
+                    nuevosDatos.Add(pokemonEntitie);
+                }
+                foreach (var poke in nuevosDatos)
+                {
+                    if (poke.Id == 0)
+                        BLLPokemones.AgregarAPokedex(poke);
+                    else
+                        BLLPokemones.ModificarEnPokedex(poke);
+                }
+            }
+            
+        }   
     }
 }
